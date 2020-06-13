@@ -11,7 +11,6 @@ public class Project {
         public final Technology t;
         public final int days;
         public int remainingDays;
-        public final static int MAX_DAYS = 28;
 
         public WorkItem(Technology t, int days) {
             this.t = t;
@@ -20,12 +19,14 @@ public class Project {
         }
 
         public String toString() {
-            return t + "_" + days + "d";
+            return t + "_" + days + "d" + remainingDays;
         }
 
         public boolean isDone() {
             return remainingDays == 0;
         }
+
+        public void work() { remainingDays --; }
     }
 
     public final Client owner;
@@ -36,8 +37,10 @@ public class Project {
     public int paymentDelay;
     public double downPayment;
     private List<WorkItem> workItems;
+    public int bugs = 0;
+    public int debugDays = 0;
 
-    public Project(Client owner, String name, Date deadline, double price, double penalty, int paymentDelay, double downPayment) {
+    private Project(Client owner, String name, Date deadline, double price, double penalty, int paymentDelay, double downPayment) {
         this.owner = owner;
         this.name = name;
         this.deadline = deadline;
@@ -50,22 +53,48 @@ public class Project {
 
     public String toString() {
         StringBuilder sb = new StringBuilder(name);
-        for (WorkItem wi : workItems)
-            sb.append(" " + wi);
+        for (WorkItem wi : workItems) {
+            sb.append(" ");
+            sb.append(wi);
+        }
         return sb.toString();
     }
 
-    public boolean isDone() {
+    public boolean isWorkDone() {
         for (WorkItem wi : workItems)
             if (!wi.isDone())
                 return false;
         return true;
     }
 
+    public boolean hasBugs() {
+        return bugs > debugDays;
+    }
+
+    public boolean doTheJob(Programmer programmer) {
+        for (WorkItem wi : workItems) {
+            if (wi.isDone())
+                continue;
+            if (programmer.hasSkill(wi.t)) {
+                wi.work();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String[] codenames = new String[] {
+            "Acrux", "Bosona", "Cursa", "Diya", "Emiw", "Franz",
+            "Ginan", "Heze", "Itonda", "Jabbah", "Kang", "Lema",
+            // ...
+    };
+    private static int[] codenameVersions = new int[codenames.length];
+
     public static Project generateNewProject(Client client) {
 
         Random r = new Random();
-        String n = "Project";
+        int codenameIndex = r.nextInt(codenames.length);
+        String n = codenames[codenameIndex] +  ++codenameVersions[codenameIndex];
         Project p = new Project(client,
                 n,
                 new Date(2020, 6,18),
@@ -76,11 +105,13 @@ public class Project {
 
         int count = 1 + r.nextInt(Technology.values().length);
         for (int i = 0; i < count; i++) {
-            int days = 1 + r.nextInt(WorkItem.MAX_DAYS);
+            int days = 1 + r.nextInt(Settings.WORK_ITEM_MAX_DAYS);
             Technology t = Technology.values()[r.nextInt(Technology.values().length)];
             WorkItem wi = new WorkItem(t, days);
             p.workItems.add(wi);
         }
+
+        System.out.println("nowy projekt " + p);
         return  p;
     }
 }

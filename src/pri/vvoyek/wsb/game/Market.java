@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Market {
-    private final static int INITIAL_PROJECT_COUNT = 3;
-    private final static int TRIES_TO_NEW_PROJECT = 2; //5;
+
     private static Market instance = new Market();
 
     public static Market getInstance() {
@@ -15,11 +14,15 @@ public class Market {
 
     public List<Client> clients = new ArrayList<>();
     public List<Project> projects = new ArrayList<>();
+    public List<Employee> employees = new ArrayList<>();
     private int counter = 0;
 
     private Market() {
-        for (int i = 0; i < INITIAL_PROJECT_COUNT; i++)
-            getNewProject();
+        for (int i = 0; i < Settings.INITIAL_PROJECT_COUNT; i++)
+            addNewProject();
+        for (int i = 0; i < Settings.INITIAL_FREE_PROGRAMMERS; i++) {
+            addNewEmployee();
+        }
     }
 
     private Client getRandomClient() {
@@ -32,15 +35,13 @@ public class Market {
             c = Client.getRandomClient();
             clients.add(c);
         }
-
         return c;
     }
 
-    private Project getNewProject() {
+    private void addNewProject() {
         Client cl = getRandomClient();
         Project p = Project.generateNewProject(cl);
         projects.add(p);
-        return p;
     }
 
     public void showAvailableProjects() {
@@ -49,10 +50,27 @@ public class Market {
     }
 
     public void searchForNewProject() {
-        if (++counter % TRIES_TO_NEW_PROJECT == 0) {
-            Project p = getNewProject();
-            System.out.println(p);
+        if (++counter % Settings.TRIES_TO_NEW_PROJECT == 0) {
+            addNewProject();
         }
+    }
 
+    public Project getProject(String projectName) {
+        for (Project p : projects) {
+            if (p.name.equals(projectName)) {
+                projects.remove(p);
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public void addNewEmployee() {
+        employees.add(Programmer.getNewProgrammer());
+    }
+
+    public void showAvailableEmployees() {
+        for (Employee e : employees)
+            System.out.println(e);
     }
 }

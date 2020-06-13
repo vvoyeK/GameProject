@@ -20,7 +20,7 @@ public class Main {
 
         System.out.println(c.toString());
 
-        Market m = Market.getInstance();
+        Game g = new Game();
 
         boolean loop = true;
         while (loop) {
@@ -28,21 +28,7 @@ public class Main {
             //String input = System.console().readLine();
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
-
-            switch (input.toLowerCase()) {
-                case "koniec" :
-                    loop = false;
-                    break;
-                case "market" :
-                    m.showAvailableProjects();
-                    break;
-                case "next" :
-                    m.searchForNewProject();
-                    break;
-                default:
-                    System.out.println("Nie rozumiem.");
-                    break;
-            }
+            g.process(input);
         }
     }
 }
