@@ -57,10 +57,36 @@ public class Project {
             sb.append(" ");
             sb.append(wi);
         }
+        if (hasBugs()) {
+            sb.append(" ");
+            sb.append(bugs);
+            sb.append("/");
+            sb.append(debugDays);
+        }
         return sb.toString();
     }
 
-    public boolean isWorkDone() {
+    public boolean isSimple() {
+        return workItems.size() == 1;
+    }
+
+    public boolean isMedium() {
+        return !isSimple() && !isComplex();
+    }
+
+    public boolean isComplex() {
+        return workItems.size() > 2 && getWorkDays() > Settings.COMPLEX_WORK_ITEM_DAYS;
+    }
+
+    public int getWorkDays() {
+        int workdays = 0;
+        for (WorkItem wi : workItems) {
+            workdays += wi.days;
+        }
+        return workdays;
+    }
+
+    public boolean isDone() {
         for (WorkItem wi : workItems)
             if (!wi.isDone())
                 return false;
@@ -69,6 +95,19 @@ public class Project {
 
     public boolean hasBugs() {
         return bugs > debugDays;
+    }
+
+    public void debug() {
+        if (hasBugs()) {
+            debugDays++;
+        }
+    }
+
+    public boolean hasTechnology(Technology t) {
+        for (WorkItem wi : workItems)
+            if (wi.t.equals(t))
+                return true;
+        return false;
     }
 
     public boolean doTheJob(Programmer programmer) {
@@ -92,8 +131,7 @@ public class Project {
 
     public static Project generateNewProject(Client client) {
 
-        Random r = new Random();
-        int codenameIndex = r.nextInt(codenames.length);
+        int codenameIndex = Game.nextInt(codenames.length);
         String n = codenames[codenameIndex] +  ++codenameVersions[codenameIndex];
         Project p = new Project(client,
                 n,
@@ -103,10 +141,12 @@ public class Project {
                 7,
                 10.0);
 
-        int count = 1 + r.nextInt(Technology.values().length);
+        int count = 1 + Game.nextInt(Technology.values().length);
         for (int i = 0; i < count; i++) {
-            int days = 1 + r.nextInt(Settings.WORK_ITEM_MAX_DAYS);
-            Technology t = Technology.values()[r.nextInt(Technology.values().length)];
+            int days = 1 + Game.nextInt(Settings.WORK_ITEM_MAX_DAYS);
+            Technology t = Technology.values()[Game.nextInt(Technology.values().length)];
+            if (p.hasTechnology(t))
+                continue;
             WorkItem wi = new WorkItem(t, days);
             p.workItems.add(wi);
         }

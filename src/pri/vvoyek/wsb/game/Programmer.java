@@ -35,25 +35,12 @@ public class Programmer extends Employee {
         p.doTheJob(this);
     }
 
-    private static String[] names = new String[] {
-            "Antoni", "Bianca", "Cina", "Daria",
-            "Eryk", "Filip", "Greta", "Henryk",
-            "Irma", "Józef", "Klara", "Leon", "Mira",
-            "Nadia", "Oleg", "Piotr", "Rufus", "Tina",
-            "Ula", "Wiktor", "Zenon",
-    };
-    private static int[] surnameIndex = new int[names.length];
-
     public static Programmer getNewProgrammer() {
-
-        Random r = new Random();
         List<Technology> skills = new ArrayList<>();
-
-        int index = r.nextInt(names.length);
-        String name = names[index] + ++surnameIndex[index];
-        int skillsCount = 1 + r.nextInt(Technology.values().length);
+        String name = getNextName();
+        int skillsCount = 1 + Game.nextInt(Technology.values().length);
         for (int i = 0; i < skillsCount; i++) {
-            Technology t = Technology.values()[r.nextInt(Technology.values().length)];
+            Technology t = Technology.values()[Game.nextInt(Technology.values().length)];
             if (skills.contains(t))
                 continue;
             skills.add(t);

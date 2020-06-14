@@ -9,6 +9,7 @@ public class Company {
     public List<Programmer> students = new ArrayList<>();
     public List<Employee> employees = new ArrayList<>();
     public List<Project> projects = new ArrayList<>();
+    public int taxDays = 0;
 
     public Company() {
         owner = new Programmer("myself", new Technology[] {
@@ -22,6 +23,10 @@ public class Company {
         students.add(new Programmer("Lucky", Technology.values()));
     }
 
+    public void showCash() {
+        System.out.println("Obecne środki: " + cash);
+    }
+
     public void showStaff() {
         System.out.println("Nasza załoga:");
         System.out.println(owner);
@@ -31,14 +36,31 @@ public class Company {
             System.out.println(e);
     }
 
+    public boolean hasEmployees() {
+        return !employees.isEmpty();
+    }
+
+    public Employee findEmployee(String name) {
+        for (Employee e : employees) {
+            if (e.name.equals(name)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     public void showProjects() {
         System.out.println("Nasze projekty:");
         for (Project p : projects)
             System.out.println(p);
     }
 
-    public void addProject(Project project) {
-        projects.add(project);
-        System.out.println("Podpisano kontrakt na projekt " + project);
+    public Project findProject(String name) {
+        for (Project p : projects) {
+            if (p.name.equals(name)) {
+                return p;
+            }
+        }
+        return null;
     }
 }

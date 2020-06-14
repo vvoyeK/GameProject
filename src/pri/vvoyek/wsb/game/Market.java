@@ -55,10 +55,9 @@ public class Market {
         }
     }
 
-    public Project getProject(String projectName) {
+    public Project findProject(String projectName) {
         for (Project p : projects) {
             if (p.name.equals(projectName)) {
-                projects.remove(p);
                 return p;
             }
         }
@@ -72,5 +71,14 @@ public class Market {
     public void showAvailableEmployees() {
         for (Employee e : employees)
             System.out.println(e);
+    }
+
+    public Employee findEmployee(String name) {
+        for (Employee e : employees) {
+            if (e.name.equals(name)) {
+                return e;
+            }
+        }
+        return null;
     }
 }

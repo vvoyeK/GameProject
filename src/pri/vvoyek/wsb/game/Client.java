@@ -21,13 +21,9 @@ public class Client {
     }
 
     public static Client getRandomClient() {
-
-        Random r = new Random();
         Type[] ta = Type.values();
-        int i = r.nextInt(ta.length);
+        int i = Game.nextInt(ta.length);
         Type t = ta[i];
         return new Client(t);
-
-        //return new Client(Type.values()[new Random().nextInt(Type.values().length)]);
     }
 }
