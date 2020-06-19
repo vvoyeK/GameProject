@@ -139,7 +139,7 @@ public class Game {
         }
         public boolean action(String input) {
             for (Project p : company.projects) {
-                if (p.doTheJob(company.owner)) {
+                if (p.doTheJob(company.owner, false)) {
                     return true;
                 }
             }
@@ -406,8 +406,9 @@ public class Game {
             }
             if (e instanceof Programmer) {
                 Programmer programmer = (Programmer) e;
+                boolean tested = company.hasTesterCoverage();
                 for (Project p : company.projects) {
-                    if (p.doTheJob(programmer)) {
+                    if (p.doTheJob(programmer, tested)) {
                         System.out.println(e.name + " pracował nad " + p.name);
                         if (p.isDone()) {
                             System.out.println("Projekt " + p.name + " jest gotowy!");

@@ -110,13 +110,13 @@ public class Project {
         return false;
     }
 
-    public boolean doTheJob(Programmer programmer) {
+    public boolean doTheJob(Programmer programmer, boolean tested) {
         for (WorkItem wi : workItems) {
             if (wi.isDone())
                 continue;
             if (programmer.hasSkill(wi.t)) {
                 wi.work();
-                if (!programmer.bugFree()) {
+                if (!tested && !programmer.bugFree()) {
                     this.bugs ++;
                 }
                 return true;
