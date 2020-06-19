@@ -13,6 +13,8 @@ public class Settings {
     public final static int TRIES_TO_NEW_PROJECT = 2; //5;
     public final static int PROGRAMMER_MAX_BUG_RATE = 10;
     public final static int PROGRAMMER_MAX_DELAY_RATE = 20;
+    public final static double EMPLOYEE_MIN_WAGE = 50.0;
+    public final static double EMPLOYEE_MAX_WAGE = 200.0;
     public final static double EMPLOYEE_FIXED_COST = 50.0;
     public final static double EMPLOYEE_SOCIAL_TAX_RATE = 0.32;
     public final static double EMPLOYMENT_COST = 25.0;

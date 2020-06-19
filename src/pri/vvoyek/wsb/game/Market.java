@@ -87,7 +87,7 @@ public class Market {
 
     public void showAvailableEmployees() {
         for (Employee e : employees)
-            System.out.println(e);
+            System.out.println(e + " o stawce " + e.salary);
     }
 
     public Employee findEmployee(String name) {

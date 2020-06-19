@@ -13,6 +13,10 @@ public class Game {
         return r.nextInt(n);
     }
 
+    public static double nextFairDouble(double min, double max) {
+        return Double.max(min, Double.min(max, min + (max - min) / 2 + r.nextGaussian() * (max - min) / 2));
+    }
+
     private interface Action {
         boolean matches(String input);
         boolean action(String input);

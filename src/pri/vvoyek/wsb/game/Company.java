@@ -12,15 +12,15 @@ public class Company {
     public int taxDays = 0;
 
     public Company() {
-        owner = new Programmer("myself", new Technology[] {
-                Technology.DATABASE,
-                Technology.FRONT_END,
-                Technology.WORDPRESS,
-                Technology.PRESTASHOP,
-        }, 0, 0);
-        students.add(new Programmer("Bob", Technology.getRandomTechnologies(), 0, 0));
-        students.add(new Programmer("Mobby", Technology.getRandomTechnologies(), 10, 0));
-        students.add(new Programmer("Lucky", Technology.getRandomTechnologies(), 20, 20));
+        owner = new Programmer("myself", 0.0, new Technology[] {
+                                Technology.DATABASE,
+                                Technology.FRONT_END,
+                                Technology.WORDPRESS,
+                                Technology.PRESTASHOP },
+                0, 0);
+        students.add(new Programmer("Bob", 0.9 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 0, 0));
+        students.add(new Programmer("Mobby", 0.6 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 10, 0));
+        students.add(new Programmer("Lucky", 0.4 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 20, 20));
     }
 
     public void showCash() {
@@ -62,7 +62,7 @@ public class Company {
         } else {
             System.out.println("Pracownicy:");
             for (Employee e : employees)
-                System.out.println(e);
+                System.out.println(e + " dniówka " + e.salary);
         }
     }
 

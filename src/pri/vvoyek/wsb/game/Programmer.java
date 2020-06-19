@@ -17,6 +17,13 @@ public class Programmer extends Employee {
         this.delayRate = delayRate;
     }
 
+    public Programmer(String name, double salary, Technology[] skills, int bugRate, int delayRate) {
+        super(name, salary);
+        Collections.addAll(this.skills, skills);
+        this.bugRate = bugRate;
+        this.delayRate = delayRate;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder(name);
         sb.append(" PROGRAMISTA");

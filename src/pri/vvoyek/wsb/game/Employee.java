@@ -10,7 +10,7 @@ public class Employee {
 
     public Employee(String name) {
         this.name = name;
-        this.salary = 0.0;
+        this.salary = getRandomSalary();
     }
 
     public Employee(String name, double salary) {
@@ -38,5 +38,13 @@ public class Employee {
     public static String getNextName() {
         int index = Game.nextInt(names.length);
         return  names[index] + String.valueOf((char)('A' + surnameIndex[index]++));
+    }
+
+    public static double getFairSalary() {
+        return Settings.EMPLOYEE_MIN_WAGE + (Settings.EMPLOYEE_MAX_WAGE - Settings.EMPLOYEE_MIN_WAGE)/2;
+    }
+
+    public static double getRandomSalary() {
+        return Math.round(Game.nextFairDouble(Settings.EMPLOYEE_MIN_WAGE, Settings.EMPLOYEE_MAX_WAGE));
     }
 }
