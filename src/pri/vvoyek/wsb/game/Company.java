@@ -66,6 +66,31 @@ public class Company {
         }
     }
 
+    private int countTesters() {
+        int count = 0;
+        for (Employee e : employees) {
+            if (e instanceof Tester)
+                count++;
+        }
+        return count;
+    }
+
+    private int countProgrammers() {
+        int count = 0;
+        for (Employee e : employees) {
+            if (e instanceof Programmer)
+                count++;
+        }
+        return count;
+    }
+
+    public boolean hasTesterCoverage() {
+        int testers = countTesters();
+        if (testers == 0)
+            return false;
+        return countProgrammers() / testers <= 3;
+    }
+
     public void showProjects() {
         System.out.println("Nasze projekty:");
         for (Project p : projects)
