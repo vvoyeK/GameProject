@@ -199,7 +199,7 @@ public class Game {
 
     private class SearchAvailableEmployees extends AbstractAction {
         public SearchAvailableEmployees() {
-            super("search", "search : zapłać " + Settings.HEADHUNTER_COST + " za szukanie nowych pracowników");
+            super("pay headhunter", "pay headhunter : zapłać " + Settings.HEADHUNTER_COST + " za szukanie nowych pracowników");
         }
         public boolean action(String input) {
             company.cash -= Settings.HEADHUNTER_COST;
