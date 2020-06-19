@@ -218,8 +218,14 @@ public class Game {
             String employeeName = words[1];
             Employee employee = market.findEmployee(employeeName);
             if (employee == null) {
-                System.out.println("Nie ma takiego pracownika: " + employeeName);
-                return false;
+                employee = company.findStudent(employeeName);
+                if (employee == null) {
+                    System.out.println("Nie ma takiego pracownika: " + employeeName);
+                    return false;
+                }
+                company.employees.add(employee);
+                System.out.println("Zlecono pracę " + employeeName);
+                return false; // same day ?
             }
             market.employees.remove(employee);
             company.employees.add(employee);
@@ -245,6 +251,10 @@ public class Game {
                 return false;
             }
             company.employees.remove(employee);
+            if (company.students.contains(employee)) {
+                System.out.println("Zwolniono " + employeeName);
+                return false; // same day
+            }
             market.employees.add(employee);
             company.cash -= Settings.LAY_OFF_COST;
             System.out.println("Zwolniono " + employeeName);
@@ -254,10 +264,20 @@ public class Game {
 
     private class ShowStaff extends AbstractAction {
         public ShowStaff() {
-            super("staff", "staff : pokazuje ludzi pracujących w firmie");
+            super("staff", "staff : pokazuje ludzi w firmie");
         }
         public boolean action(String input) {
             company.showStaff();
+            return true;
+        }
+    }
+
+    private class ShowEmployees extends AbstractAction {
+        public ShowEmployees() {
+            super("employees", "employees : pokazuje ludzi pracujących w firmie");
+        }
+        public boolean action(String input) {
+            company.showEmployees();
             return true;
         }
     }
@@ -287,6 +307,7 @@ public class Game {
         handlers.add(new ShowAvailableEmployees());
 
         handlers.add(new ShowStaff());
+        handlers.add(new ShowEmployees());
         handlers.add(new ShowProjects());
         handlers.add(new ShowCash());
 
@@ -369,39 +390,30 @@ public class Game {
     }
 
     private void employeesAtWork() {
-        for (Programmer student : company.students) {
-            for (Project p : company.projects) {
-                if (p.doTheJob(student)) {
-                    System.out.println("Student " + student.name + " pracował nad " + p.name);
-                    if (p.isDone()) {
-                        System.out.println("Projekt " + p.name + " jest gotowy!");
-                    }
-                    break;
-                }
-            }
-        }
-
         for (Employee e : company.employees) {
             if (e.isSick()) {
                 System.out.println(e.name + " jest chory i nie może pracować!");
                 continue;
             }
             if (e instanceof Salesman) {
+                System.out.println(e.name + " szuka nowych projektów");
                 market.searchForNewProject();
                 continue;
             }
-            for (Project p : company.projects) {
-                if (e instanceof Programmer) {
-                    Programmer programmer = (Programmer) e;
+            if (e instanceof Tester) {
+                System.out.println(e.name + " testuje");
+                continue;
+            }
+            if (e instanceof Programmer) {
+                Programmer programmer = (Programmer) e;
+                for (Project p : company.projects) {
                     if (p.doTheJob(programmer)) {
-                        System.out.println("Programista " + programmer.name + " pracował nad " + p.name);
+                        System.out.println(e.name + " pracował nad " + p.name);
                         if (p.isDone()) {
                             System.out.println("Projekt " + p.name + " jest gotowy!");
                         }
                         break;
                     }
-                } else if (e instanceof Tester) {
-                    //
                 }
             }
         }

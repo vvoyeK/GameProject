@@ -32,8 +32,15 @@ public class Company {
         System.out.println(owner);
         for (Employee e : students)
             System.out.println(e);
-        for (Employee e : employees)
-            System.out.println(e);
+    }
+
+    public Programmer findStudent(String name) {
+        for (Programmer p : students) {
+            if (p.name.equals(name)) {
+                return p;
+            }
+        }
+        return null;
     }
 
     public boolean hasEmployees() {
@@ -47,6 +54,16 @@ public class Company {
             }
         }
         return null;
+    }
+
+    public void showEmployees() {
+        if (employees.isEmpty()) {
+            System.out.println("Obecnie nie masz zatrudnionych pracowników!");
+        } else {
+            System.out.println("Pracownicy:");
+            for (Employee e : employees)
+                System.out.println(e);
+        }
     }
 
     public void showProjects() {
