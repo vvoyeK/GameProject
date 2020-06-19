@@ -17,10 +17,10 @@ public class Company {
                 Technology.FRONT_END,
                 Technology.WORDPRESS,
                 Technology.PRESTASHOP,
-        }, 0);
-        students.add(new Programmer("Bob", Technology.getRandomTechnologies(), 0));
-        students.add(new Programmer("Mobby", Technology.getRandomTechnologies(), 10));
-        students.add(new Programmer("Lucky", Technology.getRandomTechnologies(), 20));
+        }, 0, 0);
+        students.add(new Programmer("Bob", Technology.getRandomTechnologies(), 0, 0));
+        students.add(new Programmer("Mobby", Technology.getRandomTechnologies(), 10, 0));
+        students.add(new Programmer("Lucky", Technology.getRandomTechnologies(), 20, 20));
     }
 
     public void showCash() {

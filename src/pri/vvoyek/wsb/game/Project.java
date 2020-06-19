@@ -115,7 +115,8 @@ public class Project {
             if (wi.isDone())
                 continue;
             if (programmer.hasSkill(wi.t)) {
-                wi.work();
+                if (programmer.onTime())
+                    wi.work();
                 if (!tested && !programmer.bugFree()) {
                     this.bugs ++;
                 }

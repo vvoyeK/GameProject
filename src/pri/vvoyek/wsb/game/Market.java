@@ -68,7 +68,9 @@ public class Market {
         Employee e = null;
         switch (Game.nextInt(3)) {
             case 0:
-                e = Programmer.getNewProgrammer(Game.nextInt(Settings.PROGRAMMER_MAX_BUG_RATE));
+                e = Programmer.getNewProgrammer(
+                        Game.nextInt(Settings.PROGRAMMER_MAX_BUG_RATE),
+                        Game.nextInt(Settings.PROGRAMMER_MAX_DELAY_RATE));
                 break;
             case 1:
                 e = new Tester(Employee.getNextName());

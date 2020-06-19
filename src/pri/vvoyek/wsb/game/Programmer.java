@@ -7,12 +7,14 @@ import java.util.Random;
 
 public class Programmer extends Employee {
     private final List<Technology> skills = new ArrayList<>();
-    public final int bugRate;
+    private final int bugRate;
+    private final int delayRate;
 
-    public Programmer(String name, Technology[] skills, int bugRate) {
+    public Programmer(String name, Technology[] skills, int bugRate, int delayRate) {
         super(name);
         Collections.addAll(this.skills, skills);
         this.bugRate = bugRate;
+        this.delayRate = delayRate;
     }
 
     public String toString() {
@@ -33,9 +35,13 @@ public class Programmer extends Employee {
         return Game.nextInt(100) >= bugRate;
     }
 
-    public static Programmer getNewProgrammer(int bugRate) {
+    public boolean onTime() {
+        return Game.nextInt(100) >= delayRate;
+    }
+
+    public static Programmer getNewProgrammer(int bugRate, int delayRate) {
         String name = getNextName();
         Technology[] skills = Technology.getRandomTechnologies();
-        return new Programmer(name, skills, bugRate);
+        return new Programmer(name, skills, bugRate, delayRate);
     }
 }
