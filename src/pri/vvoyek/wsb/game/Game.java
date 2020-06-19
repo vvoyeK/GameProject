@@ -153,7 +153,7 @@ public class Game {
         }
         public boolean action(String input) {
             for (Project p : company.projects) {
-                if (!p.isDone() && p.hasBugs()) {
+                if (p.hasBugs()) {
                     p.debug();
                     break;
                 }
@@ -192,8 +192,18 @@ public class Game {
             super("interview", "interview : pokaż listę dostępnych pracowników");
         }
         public boolean action(String input) {
-            market.addNewEmployee();
             market.showAvailableEmployees();
+            return true;
+        }
+    }
+
+    private class SearchAvailableEmployees extends AbstractAction {
+        public SearchAvailableEmployees() {
+            super("search", "search : zapłać " + Settings.HEADHUNTER_COST + " za szukanie nowych pracowników");
+        }
+        public boolean action(String input) {
+            company.cash -= Settings.HEADHUNTER_COST;
+            market.addNewEmployee();
             return true;
         }
     }
@@ -275,10 +285,12 @@ public class Game {
 
         handlers.add(new ShowAvailableProjects());
         handlers.add(new ShowAvailableEmployees());
+
         handlers.add(new ShowStaff());
         handlers.add(new ShowProjects());
         handlers.add(new ShowCash());
 
+        moves.add(new SearchAvailableEmployees());
         moves.add(new SearchProject());
         moves.add(new SignContract());
         moves.add(new WorkOnProject());
@@ -332,50 +344,16 @@ public class Game {
     private void endOfDay() {
         LocalDateTime tomorrow = today.plusDays(1);
 
-        if (!company.employees.isEmpty()) {
-            List<Employee> leavingEmployees = new ArrayList<>();
-            for (Employee e : company.employees) {
-                if (company.cash > e.salary) {
-                    company.cash -= e.salary;
-                } else {
-                    company.cash = 0.0;
-                    leavingEmployees.add(e);
-                }
-            }
-            for (Employee e : leavingEmployees) {
-                company.employees.remove(e);
-                market.employees.add(e);
-                System.out.println(e.name + " odszedł z firmy");
-            }
-            for (Employee e : company.employees) {
-                company.cash -= Settings.EMPLOYEE_FIXED_COST;
-                company.cash -= e.salary * Settings.EMPLOYEE_SOCIAL_TAX_RATE;
-            }
+        if (isWorkday(today)) {
+            employeesAtWork();
         }
+
+        payFixedCosts();
+        paySalaries();
 
         if (company.cash < 0.0) {
             gameOver("zabrakło gotówki, przegrałeś");
             return;
-        }
-
-        if (isWorkday(today)) {
-            for (Programmer student : company.students) {
-                for (Project p : company.projects) {
-                    if (p.doTheJob(student)) {
-                        break;
-                    }
-                }
-            }
-            for (Employee e : company.employees) {
-                for (Project p : company.projects) {
-                    if (e instanceof Programmer) {
-                        Programmer programmer = (Programmer)e;
-                        if (p.doTheJob(programmer)) {
-                            break;
-                        }
-                    }
-                }
-            }
         }
 
         if (tomorrow.getDayOfMonth() == 1) {
@@ -388,5 +366,70 @@ public class Game {
 
         today = tomorrow;
         System.out.println("Nowy dzień! " + today + " " + today.getDayOfWeek());
+    }
+
+    private void employeesAtWork() {
+        for (Programmer student : company.students) {
+            for (Project p : company.projects) {
+                if (p.doTheJob(student)) {
+                    System.out.println("Student " + student.name + " pracował nad " + p.name);
+                    if (p.isDone()) {
+                        System.out.println("Projekt " + p.name + " jest gotowy!");
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (Employee e : company.employees) {
+            if (e.isSick()) {
+                System.out.println(e.name + " jest chory i nie może pracować!");
+                continue;
+            }
+            if (e instanceof Salesman) {
+                market.searchForNewProject();
+                continue;
+            }
+            for (Project p : company.projects) {
+                if (e instanceof Programmer) {
+                    Programmer programmer = (Programmer) e;
+                    if (p.doTheJob(programmer)) {
+                        System.out.println("Programista " + programmer.name + " pracował nad " + p.name);
+                        if (p.isDone()) {
+                            System.out.println("Projekt " + p.name + " jest gotowy!");
+                        }
+                        break;
+                    }
+                } else if (e instanceof Tester) {
+                    //
+                }
+            }
+        }
+    }
+
+    private void payFixedCosts() {
+        for (Employee e : company.employees) {
+            company.cash -= Settings.EMPLOYEE_FIXED_COST;
+        }
+    }
+
+    private void paySalaries() {
+        List<Employee> leavingEmployees = new ArrayList<>();
+        for (Employee e : company.employees) {
+            if (company.cash > e.salary) {
+                company.cash -= e.salary;
+            } else {
+                company.cash = 0.0;
+                leavingEmployees.add(e);
+            }
+        }
+        for (Employee e : leavingEmployees) {
+            company.employees.remove(e);
+            market.employees.add(e);
+            System.out.println(e.name + " odszedł z firmy");
+        }
+        for (Employee e : company.employees) {
+            company.cash -= e.salary * Settings.EMPLOYEE_SOCIAL_TAX_RATE;
+        }
     }
 }

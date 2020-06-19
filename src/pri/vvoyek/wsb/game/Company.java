@@ -17,10 +17,10 @@ public class Company {
                 Technology.FRONT_END,
                 Technology.WORDPRESS,
                 Technology.PRESTASHOP,
-        });
-        students.add(new Programmer("Bob", Technology.values()));
-        students.add(new Programmer("Mobby", Technology.values()));
-        students.add(new Programmer("Lucky", Technology.values()));
+        }, 0);
+        students.add(new Programmer("Bob", Technology.values(), 0));
+        students.add(new Programmer("Mobby", Technology.values(), 10));
+        students.add(new Programmer("Lucky", Technology.values(), 20));
     }
 
     public void showCash() {

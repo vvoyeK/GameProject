@@ -20,7 +20,7 @@ public class Market {
     private Market() {
         for (int i = 0; i < Settings.INITIAL_PROJECT_COUNT; i++)
             addNewProject();
-        for (int i = 0; i < Settings.INITIAL_FREE_PROGRAMMERS; i++) {
+        for (int i = 0; i < Settings.INITIAL_FREE_EMPLOYEES; i++) {
             addNewEmployee();
         }
     }
@@ -65,7 +65,22 @@ public class Market {
     }
 
     public void addNewEmployee() {
-        employees.add(Programmer.getNewProgrammer());
+        Employee e = null;
+        switch (Game.nextInt(3)) {
+            case 0:
+                e = Programmer.getNewProgrammer(Game.nextInt(10));
+                break;
+            case 1:
+                e = new Tester(Employee.getNextName());
+                break;
+            case 2:
+                e = new Salesman(Employee.getNextName());
+                break;
+            default:
+                return;
+        }
+        employees.add(e);
+        System.out.println("Nowy pracownik " + e);
     }
 
     public void showAvailableEmployees() {

@@ -58,7 +58,7 @@ public class Project {
             sb.append(wi);
         }
         if (hasBugs()) {
-            sb.append(" ");
+            sb.append(" bugs ");
             sb.append(bugs);
             sb.append("/");
             sb.append(debugDays);
@@ -116,6 +116,9 @@ public class Project {
                 continue;
             if (programmer.hasSkill(wi.t)) {
                 wi.work();
+                if (!programmer.bugFree()) {
+                    this.bugs ++;
+                }
                 return true;
             }
         }

@@ -7,19 +7,17 @@ import java.util.Random;
 
 public class Programmer extends Employee {
     private final List<Technology> skills = new ArrayList<>();
+    public final int bugRate;
 
-    public Programmer(String name, Technology[] skills) {
+    public Programmer(String name, Technology[] skills, int bugRate) {
         super(name);
         Collections.addAll(this.skills, skills);
-    }
-
-    public Programmer(String name, Technology t) {
-        super(name);
-        this.skills.add(t);
+        this.bugRate = bugRate;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder(name);
+        sb.append(" PROGRAMISTA");
         for (Technology t : skills) {
             sb.append(" ");
             sb.append(t);
@@ -31,11 +29,15 @@ public class Programmer extends Employee {
         return skills.contains(t);
     }
 
+    public boolean bugFree() {
+        return Game.nextInt(100) >= bugRate;
+    }
+
     public void work(Project p) {
         p.doTheJob(this);
     }
 
-    public static Programmer getNewProgrammer() {
+    public static Programmer getNewProgrammer(int bugRate) {
         List<Technology> skills = new ArrayList<>();
         String name = getNextName();
         int skillsCount = 1 + Game.nextInt(Technology.values().length);
@@ -45,6 +47,6 @@ public class Programmer extends Employee {
                 continue;
             skills.add(t);
         }
-        return new Programmer(name, skills.toArray(new Technology[0]));
+        return new Programmer(name, skills.toArray(new Technology[0]), bugRate);
     }
 }

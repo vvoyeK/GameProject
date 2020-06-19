@@ -22,6 +22,10 @@ public class Employee {
         return name;
     }
 
+    public boolean isSick() {
+        return Game.nextInt(365) < Settings.SICK_DAYS_PER_YEAR;
+    }
+
     private static String[] names = new String[] {
             "Antoni", "Bianca", "Cina", "Daria",
             "Eryk", "Filip", "Greta", "Henryk",
