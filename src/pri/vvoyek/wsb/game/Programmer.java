@@ -33,10 +33,6 @@ public class Programmer extends Employee {
         return Game.nextInt(100) >= bugRate;
     }
 
-    public void work(Project p) {
-        p.doTheJob(this);
-    }
-
     public static Programmer getNewProgrammer(int bugRate) {
         String name = getNextName();
         Technology[] skills = Technology.getRandomTechnologies();
