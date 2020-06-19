@@ -38,15 +38,8 @@ public class Programmer extends Employee {
     }
 
     public static Programmer getNewProgrammer(int bugRate) {
-        List<Technology> skills = new ArrayList<>();
         String name = getNextName();
-        int skillsCount = 1 + Game.nextInt(Technology.values().length);
-        for (int i = 0; i < skillsCount; i++) {
-            Technology t = Technology.values()[Game.nextInt(Technology.values().length)];
-            if (skills.contains(t))
-                continue;
-            skills.add(t);
-        }
-        return new Programmer(name, skills.toArray(new Technology[0]), bugRate);
+        Technology[] skills = Technology.getRandomTechnologies();
+        return new Programmer(name, skills, bugRate);
     }
 }
