@@ -144,12 +144,9 @@ public class Project {
                 7,
                 10.0);
 
-        int count = 1 + Game.nextInt(Technology.values().length);
-        for (int i = 0; i < count; i++) {
+        Technology[] technologies = Technology.getRandomTechnologies();
+        for (Technology t : technologies) {
             int days = 1 + Game.nextInt(Settings.WORK_ITEM_MAX_DAYS);
-            Technology t = Technology.values()[Game.nextInt(Technology.values().length)];
-            if (p.hasTechnology(t))
-                continue;
             WorkItem wi = new WorkItem(t, days);
             p.workItems.add(wi);
         }

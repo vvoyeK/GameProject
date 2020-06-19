@@ -18,9 +18,9 @@ public class Company {
                 Technology.WORDPRESS,
                 Technology.PRESTASHOP,
         }, 0);
-        students.add(new Programmer("Bob", Technology.values(), 0));
-        students.add(new Programmer("Mobby", Technology.values(), 10));
-        students.add(new Programmer("Lucky", Technology.values(), 20));
+        students.add(new Programmer("Bob", Technology.getRandomTechnologies(), 0));
+        students.add(new Programmer("Mobby", Technology.getRandomTechnologies(), 10));
+        students.add(new Programmer("Lucky", Technology.getRandomTechnologies(), 20));
     }
 
     public void showCash() {
