@@ -28,7 +28,13 @@ public class Client {
             if (!p.wasFullyPaid() && p.paymentDate.equals(today)) {
                 double payment = p.getPrice() - p.getDownPayment();
                 if (p.deliveryDate.isAfter(p.deadline)) {
-                    payment -= p.getPenalty();
+                    if (type.equals(Type.EASY) &&
+                            p.deliveryDate.isBefore(p.deadline.plusDays(7)) &&
+                            (Game.nextInt(100) < 20)) {
+                        System.out.println("Masz szczęście, uniknięto kary!");
+                    } else {
+                        payment -= p.getPenalty();
+                    }
                 }
                 p.contractor.receivePayment(payment, p.name);
                 p.payment = p.getPrice();
