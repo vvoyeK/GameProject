@@ -12,8 +12,8 @@ public class Company {
     public List<Project> projectsDone = new ArrayList<>();
     public int taxDays = 0;
 
-    public Company() {
-        owner = new Programmer("myself", 0.0, new Technology[] {
+    public Company(String playerName) {
+        owner = new Programmer(playerName, 0.0, new Technology[] {
                                 Technology.DATABASE,
                                 Technology.FRONT_END,
                                 Technology.WORDPRESS,

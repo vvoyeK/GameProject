@@ -308,7 +308,7 @@ public class Game {
     private String finalScore = "";
     private List<Action> moves = new ArrayList<>();
     private Market market = Market.getInstance();
-    private Company company = new Company();
+    private Company company = new Company("Player");
 
     public Game() {
         moves.add(new Help());
