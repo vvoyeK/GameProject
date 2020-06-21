@@ -34,7 +34,6 @@ public class Project {
     public final int margin;
     public final double penalty;
     public int paymentDelay;
-    public double downPayment;
     public double payment = 0.0;
     private List<WorkItem> workItems;
     public int bugs = 0;
@@ -44,13 +43,12 @@ public class Project {
     public LocalDate deliveryDate;
     public LocalDate paymentDate;
 
-    private Project(Client owner, String name, int margin, double penalty, int paymentDelay, double downPayment) {
+    private Project(Client owner, String name, int margin, double penalty, int paymentDelay) {
         this.owner = owner;
         this.name = name;
         this.margin = margin;
         this.penalty = penalty;
         this.paymentDelay = paymentDelay;
-        this.downPayment = downPayment;
         this.workItems = new ArrayList<>();
     }
 
@@ -109,6 +107,13 @@ public class Project {
 
     public double getPrice() {
         return Math.round(getWorkDays() * Settings.PROJECT_FAIR_COST * (100.0 + getMargin()) / 100);
+    }
+
+    public double getDownPayment() {
+        if (isComplex()) {
+            return getPrice() * Settings.PROJECT_DOWN_PAYMENT;
+        }
+        return 0.0;
     }
 
     public boolean isDone() {
@@ -171,8 +176,7 @@ public class Project {
                 n,
                 margin,
                 20.0,
-                paymentDelay,
-                10.0);
+                paymentDelay);
 
         Technology[] technologies = Technology.getRandomTechnologies();
         for (Technology t : technologies) {

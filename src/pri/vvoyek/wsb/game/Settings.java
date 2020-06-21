@@ -25,6 +25,7 @@ public class Settings {
     public final static double PROJECT_FAIR_COST = EMPLOYEE_MAX_WAGE + EMPLOYEE_FIXED_COST;
     public final static int PROJECT_MAX_MARGIN = 10;
     public final static int PROJECT_MAX_PAYMENT_DELAY = 30;
+    public final static double PROJECT_DOWN_PAYMENT = 0.2;
 
     public final static LocalDate[] HOLIDAYS = new LocalDate[] {
             LocalDate.of(2020,5,1),

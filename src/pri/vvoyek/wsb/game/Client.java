@@ -26,9 +26,9 @@ public class Client {
     public void payBills(LocalDate today) {
         for (Project p : projects) {
             if (!p.wasFullyPaid() && p.paymentDate.equals(today)) {
-                double payment = p.getPrice();
+                double payment = p.getPrice() - p.getDownPayment();
                 p.contractor.receivePayment(payment, p.name);
-                p.payment = payment;
+                p.payment += payment;
             }
         }
     }

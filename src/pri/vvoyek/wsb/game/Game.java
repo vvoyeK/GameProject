@@ -115,6 +115,9 @@ public class Game {
             project.contractor = company;
             project.deadline = today.plusDays(project.daysForDelivery());
             System.out.println("Podpisano kontrakt na projekt " + project);
+            if (project.getDownPayment() != 0.0) {
+                company.receivePayment(project.getDownPayment(), projectName);
+            }
             return true;
         }
     }
