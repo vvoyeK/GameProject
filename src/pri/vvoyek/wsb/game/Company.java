@@ -95,7 +95,7 @@ public class Company {
     public void showProjects() {
         System.out.println("Nasze projekty:");
         for (Project p : projects)
-            System.out.println(p);
+            System.out.println(p + " deadline " + p.deadline);
     }
 
     public Project findProject(String name) {

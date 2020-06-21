@@ -31,7 +31,6 @@ public class Project {
 
     public final Client owner;
     public final String name;
-    public final Date deadline;
     public final int margin;
     public final double penalty;
     public int paymentDelay;
@@ -41,13 +40,13 @@ public class Project {
     public int bugs = 0;
     public int debugDays = 0;
     public Company contractor;
+    public LocalDate deadline;
     public LocalDate deliveryDate;
     public LocalDate paymentDate;
 
-    private Project(Client owner, String name, Date deadline, int margin, double penalty, int paymentDelay, double downPayment) {
+    private Project(Client owner, String name, int margin, double penalty, int paymentDelay, double downPayment) {
         this.owner = owner;
         this.name = name;
-        this.deadline = deadline;
         this.margin = margin;
         this.penalty = penalty;
         this.paymentDelay = paymentDelay;
@@ -71,7 +70,7 @@ public class Project {
     }
 
     public String toLongString() {
-        return toString() + " wartość " + getPrice() + " (" + getMargin() + "%) płatność " + paymentDelay + " dni";
+        return toString() + " wartość " + getPrice() + " (" + getMargin() + "%) płatność " + paymentDelay + " dni termin oddania " + daysForDelivery() + " dni";
     }
 
     public boolean isSimple() {
@@ -92,6 +91,16 @@ public class Project {
             workdays += wi.days;
         }
         return workdays;
+    }
+
+    public int daysForDelivery() {
+        if (isComplex()) {
+            return getWorkDays() * 2;
+        } else if (isMedium()) {
+            return getWorkDays() * 3 / 2;
+        } else {
+            return getWorkDays();
+        }
     }
 
     public int getMargin() {
@@ -160,7 +169,6 @@ public class Project {
         String n = codenames[codenameIndex] +  ++codenameVersions[codenameIndex];
         Project p = new Project(client,
                 n,
-                new Date(2020, 6,18),
                 margin,
                 20.0,
                 paymentDelay,

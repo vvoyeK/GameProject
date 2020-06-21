@@ -113,6 +113,7 @@ public class Game {
             market.projects.remove(project);
             company.projects.add(project);
             project.contractor = company;
+            project.deadline = today.plusDays(project.daysForDelivery());
             System.out.println("Podpisano kontrakt na projekt " + project);
             return true;
         }
