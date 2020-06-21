@@ -32,7 +32,7 @@ public class Project {
     public final Client owner;
     public final String name;
     public final Date deadline;
-    public final double price;
+    public final int margin;
     public final double penalty;
     public int paymentDelay;
     public double downPayment;
@@ -40,11 +40,11 @@ public class Project {
     public int bugs = 0;
     public int debugDays = 0;
 
-    private Project(Client owner, String name, Date deadline, double price, double penalty, int paymentDelay, double downPayment) {
+    private Project(Client owner, String name, Date deadline, int margin, double penalty, int paymentDelay, double downPayment) {
         this.owner = owner;
         this.name = name;
         this.deadline = deadline;
-        this.price = price;
+        this.margin = margin;
         this.penalty = penalty;
         this.paymentDelay = paymentDelay;
         this.downPayment = downPayment;
@@ -84,6 +84,14 @@ public class Project {
             workdays += wi.days;
         }
         return workdays;
+    }
+
+    public int getMargin() {
+        return margin * workItems.size();
+    }
+
+    public double getPrice() {
+        return Math.round(getWorkDays() * Settings.PROJECT_FAIR_COST * (100.0 + getMargin()) / 100);
     }
 
     public boolean isDone() {
@@ -134,13 +142,13 @@ public class Project {
     private static int[] codenameVersions = new int[codenames.length];
 
     public static Project generateNewProject(Client client) {
-
+        int margin = Game.nextInt(Settings.PROJECT_MAX_MARGIN);
         int codenameIndex = Game.nextInt(codenames.length);
         String n = codenames[codenameIndex] +  ++codenameVersions[codenameIndex];
         Project p = new Project(client,
                 n,
                 new Date(2020, 6,18),
-                100.0,
+                margin,
                 20.0,
                 7,
                 10.0);
@@ -152,7 +160,7 @@ public class Project {
             p.workItems.add(wi);
         }
 
-        System.out.println("nowy projekt " + p);
+        System.out.println("nowy projekt " + p + " o wartości " + p.getPrice() + " " + p.getMargin() + "%");
         return  p;
     }
 }
