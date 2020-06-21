@@ -2,10 +2,11 @@ package pri.vvoyek.wsb.game;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Settings {
     public final static LocalDate GAME_START_DAY = LocalDate.of(2020,1, 1);
-    public final static long GAME_SEED = 123456;
+    public final static long GAME_SEED = LocalDateTime.now().hashCode();
     public final static double COMPANY_INITIAL_CASH = 1000.0;
     public final static int MIN_COMPLEX_PROJECT_COUNT = 3;
     public final static int MIN_SALESMAN_PROJECT_COUNT = 1;
