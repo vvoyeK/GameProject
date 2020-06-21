@@ -1,9 +1,9 @@
 package pri.vvoyek.wsb.game;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Settings {
-    public final static LocalDateTime START_OF_THE_GAME = LocalDateTime.of(2020,1, 1, 0, 0);
+    public final static LocalDate GAME_START_DAY = LocalDate.of(2020,1, 1);
     public final static long GAME_SEED = 123456;
     public final static double COMPANY_INITIAL_CASH = 1000.0;
     public final static int WORK_ITEM_MAX_DAYS = 10; //28;
@@ -26,8 +26,8 @@ public class Settings {
     public final static int PROJECT_MAX_MARGIN = 10;
     public final static int PROJECT_MAX_PAYMENT_DELAY = 30;
 
-    public final static LocalDateTime[] HOLIDAYS = new LocalDateTime[] {
-            LocalDateTime.of(2020,5,1,0,0),
-            LocalDateTime.of(2020,12,25,0,0),
+    public final static LocalDate[] HOLIDAYS = new LocalDate[] {
+            LocalDate.of(2020,5,1),
+            LocalDate.of(2020,12,25),
     };
 }

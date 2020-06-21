@@ -1,11 +1,9 @@
 package pri.vvoyek.wsb.game;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class Project {
 
@@ -43,8 +41,8 @@ public class Project {
     public int bugs = 0;
     public int debugDays = 0;
     public Company contractor;
-    public LocalDateTime deliveryDate;
-    public LocalDateTime paymentDate;
+    public LocalDate deliveryDate;
+    public LocalDate paymentDate;
 
     private Project(Client owner, String name, Date deadline, int margin, double penalty, int paymentDelay, double downPayment) {
         this.owner = owner;

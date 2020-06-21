@@ -1,7 +1,7 @@
 package pri.vvoyek.wsb.game;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -301,7 +301,7 @@ public class Game {
         }
     }
 
-    private LocalDateTime today = Settings.START_OF_THE_GAME;
+    private LocalDate today = Settings.GAME_START_DAY;
     private String finalScore = "";
     private List<Action> handlers = new ArrayList<>();
     private List<Action> moves = new ArrayList<>();
@@ -360,11 +360,11 @@ public class Game {
         System.out.println("Nie rozumiem.");
     }
 
-    private static boolean isWorkday(LocalDateTime date) {
+    private static boolean isWorkday(LocalDate date) {
         if (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             return false;
         }
-        for (LocalDateTime h : Settings.HOLIDAYS) {
+        for (LocalDate h : Settings.HOLIDAYS) {
             if (h.getMonth().equals(date.getMonth()) && h.getDayOfMonth() == date.getDayOfMonth())
                 return false;
         }
@@ -372,7 +372,7 @@ public class Game {
     }
 
     private void endOfDay() {
-        LocalDateTime tomorrow = today.plusDays(1);
+        LocalDate tomorrow = today.plusDays(1);
 
         if (isWorkday(today)) {
             employeesAtWork();

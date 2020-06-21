@@ -3,7 +3,6 @@ package pri.vvoyek.wsb.game;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Programmer extends Employee {
     private final List<Technology> skills = new ArrayList<>();

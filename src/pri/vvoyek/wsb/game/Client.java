@@ -1,9 +1,8 @@
 package pri.vvoyek.wsb.game;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Client {
     private static int lastId = 0;
@@ -24,7 +23,7 @@ public class Client {
         return id + "_" + type.toString();
     }
 
-    public void payBills(LocalDateTime today) {
+    public void payBills(LocalDate today) {
         for (Project p : projects) {
             if (!p.wasFullyPaid() && p.paymentDate.equals(today)) {
                 double payment = p.getPrice();

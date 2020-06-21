@@ -1,9 +1,5 @@
 package pri.vvoyek.wsb.game;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class Employee {
     public final String name;
     public double salary;
