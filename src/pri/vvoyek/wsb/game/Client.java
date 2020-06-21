@@ -62,9 +62,20 @@ public class Client {
                         payment -= p.getPenalty();
                     }
                 }
-                p.contractor.receivePayment(payment, p.name);
+                if (isReliablePayer()) {
+                    p.contractor.receivePayment(payment, p.name);
+                }
                 p.payment = p.getPrice();
             }
+        }
+    }
+
+    private boolean isReliablePayer() {
+        switch (type) {
+            case EVIL:
+                return Game.nextInt(100) < 1;
+            default:
+                return true;
         }
     }
 
