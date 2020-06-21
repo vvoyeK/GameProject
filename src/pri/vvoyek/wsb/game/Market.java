@@ -82,7 +82,7 @@ public class Market {
                 return;
         }
         employees.add(e);
-        System.out.println("Nowy pracownik " + e);
+        System.out.println("nowy pracownik " + e);
     }
 
     public void showAvailableEmployees() {
