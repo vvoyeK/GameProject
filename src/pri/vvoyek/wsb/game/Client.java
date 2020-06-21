@@ -1,5 +1,7 @@
 package pri.vvoyek.wsb.game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Client {
@@ -10,6 +12,7 @@ public class Client {
     }
     public final Type type;
     private final int id;
+    public final List<Project> projects = new ArrayList<>();
 
     private Client(Type type) {
         this.type = type;
@@ -18,6 +21,16 @@ public class Client {
 
     public String toString() {
         return id + "_" + type.toString();
+    }
+
+    public void payBills() {
+        for (Project p : projects) {
+            if (!p.wasFullyPaid()) {
+                double payment = p.getPrice();
+                p.contractor.receivePayment(payment);
+                p.payment = payment;
+            }
+        }
     }
 
     public static Client getRandomClient() {

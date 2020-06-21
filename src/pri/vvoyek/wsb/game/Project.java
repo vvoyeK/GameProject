@@ -36,9 +36,11 @@ public class Project {
     public final double penalty;
     public int paymentDelay;
     public double downPayment;
+    public double payment = 0.0;
     private List<WorkItem> workItems;
     public int bugs = 0;
     public int debugDays = 0;
+    public Company contractor;
 
     private Project(Client owner, String name, Date deadline, int margin, double penalty, int paymentDelay, double downPayment) {
         this.owner = owner;
@@ -132,6 +134,10 @@ public class Project {
             }
         }
         return false;
+    }
+
+    public boolean wasFullyPaid() {
+        return payment >= getPrice();
     }
 
     private static String[] codenames = new String[] {

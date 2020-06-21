@@ -105,4 +105,8 @@ public class Company {
         }
         return null;
     }
+
+    public void receivePayment(double bill) {
+        cash += bill;
+    }
 }

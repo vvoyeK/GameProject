@@ -112,6 +112,7 @@ public class Game {
             }
             market.projects.remove(project);
             company.projects.add(project);
+            project.contractor = company;
             System.out.println("Podpisano kontrakt na projekt " + project);
             return true;
         }
@@ -144,6 +145,7 @@ public class Game {
         public boolean action(String input) {
             for (Project p : company.projects) {
                 if (p.doTheJob(company.owner, false)) {
+                    System.out.println(company.owner.name + " pracował nad " + p.name);
                     return true;
                 }
             }
@@ -186,6 +188,7 @@ public class Game {
                 return false;
             }
             company.projects.remove(project);
+            project.owner.projects.add(project);
             System.out.println("Oddano projekt " + projectName);
             return true;
         }
@@ -389,6 +392,8 @@ public class Game {
             company.taxDays = 0;
         }
 
+        clientsPayBills();
+
         today = tomorrow;
         System.out.println("Nowy dzień! " + today + " " + today.getDayOfWeek());
     }
@@ -447,6 +452,12 @@ public class Game {
         }
         for (Employee e : company.employees) {
             company.cash -= e.salary * Settings.EMPLOYEE_SOCIAL_TAX_RATE;
+        }
+    }
+
+    private void clientsPayBills() {
+        for (Client c : market.clients) {
+            c.payBills();
         }
     }
 }
