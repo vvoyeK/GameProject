@@ -23,6 +23,27 @@ public class Client {
         return id + "_" + type.toString();
     }
 
+    public int getExtraPaymentDelay() {
+        int extra = 0;
+
+        if (type.equals(Type.EASY)) {
+            if (Game.nextInt(100) < 30) {
+                extra = 7;
+            }
+        } else if (type.equals(Type.EVIL)) {
+            if (Game.nextInt(100) < 30) {
+                extra = 7;
+            } else if (Game.nextInt(100) < 5) {
+                extra = 30;
+            }
+        }
+
+        if (extra > 0) {
+            System.out.println("Masz pecha, termin płatności wydłużono o " + extra + " dni!");
+        }
+        return extra;
+    }
+
     public void payBills(LocalDate today) {
         for (Project p : projects) {
             if (!p.wasFullyPaid() && p.paymentDate.equals(today)) {

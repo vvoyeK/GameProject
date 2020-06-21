@@ -194,7 +194,7 @@ public class Game {
             company.projects.remove(project);
             project.owner.projects.add(project);
             project.deliveryDate = today;
-            project.paymentDate = today.plusDays(project.paymentDelay);
+            project.paymentDate = today.plusDays(project.paymentDelay + project.owner.getExtraPaymentDelay());
             System.out.println("Oddano projekt " + projectName);
             return true;
         }
