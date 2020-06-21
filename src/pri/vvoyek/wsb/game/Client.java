@@ -27,8 +27,11 @@ public class Client {
         for (Project p : projects) {
             if (!p.wasFullyPaid() && p.paymentDate.equals(today)) {
                 double payment = p.getPrice() - p.getDownPayment();
+                if (p.deliveryDate.isAfter(p.deadline)) {
+                    payment -= p.getPenalty();
+                }
                 p.contractor.receivePayment(payment, p.name);
-                p.payment += payment;
+                p.payment = p.getPrice();
             }
         }
     }

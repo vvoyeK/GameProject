@@ -32,7 +32,6 @@ public class Project {
     public final Client owner;
     public final String name;
     public final int margin;
-    public final double penalty;
     public int paymentDelay;
     public double payment = 0.0;
     private List<WorkItem> workItems;
@@ -43,11 +42,10 @@ public class Project {
     public LocalDate deliveryDate;
     public LocalDate paymentDate;
 
-    private Project(Client owner, String name, int margin, double penalty, int paymentDelay) {
+    private Project(Client owner, String name, int margin, int paymentDelay) {
         this.owner = owner;
         this.name = name;
         this.margin = margin;
-        this.penalty = penalty;
         this.paymentDelay = paymentDelay;
         this.workItems = new ArrayList<>();
     }
@@ -116,6 +114,10 @@ public class Project {
         return 0.0;
     }
 
+    public double getPenalty() {
+        return getPrice() * Settings.PROJECT_PENALTY;
+    }
+
     public boolean isDone() {
         for (WorkItem wi : workItems)
             if (!wi.isDone())
@@ -172,11 +174,7 @@ public class Project {
         int paymentDelay = Game.nextInt(Settings.PROJECT_MAX_PAYMENT_DELAY);
         int codenameIndex = Game.nextInt(codenames.length);
         String n = codenames[codenameIndex] +  ++codenameVersions[codenameIndex];
-        Project p = new Project(client,
-                n,
-                margin,
-                20.0,
-                paymentDelay);
+        Project p = new Project(client, n, margin, paymentDelay);
 
         Technology[] technologies = Technology.getRandomTechnologies();
         for (Technology t : technologies) {
