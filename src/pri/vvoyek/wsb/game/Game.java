@@ -352,21 +352,10 @@ public class Game {
         System.out.println("Nie rozumiem.");
     }
 
-    private static boolean isWorkday(LocalDate date) {
-        if (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            return false;
-        }
-        for (LocalDate h : Settings.HOLIDAYS) {
-            if (h.getMonth().equals(date.getMonth()) && h.getDayOfMonth() == date.getDayOfMonth())
-                return false;
-        }
-        return true;
-    }
-
     private void endOfDay() {
         LocalDate tomorrow = today.plusDays(1);
 
-        if (isWorkday(today)) {
+        if (Settings.isWorkday(today)) {
             employeesAtWork();
         }
 

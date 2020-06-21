@@ -1,5 +1,6 @@
 package pri.vvoyek.wsb.game;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class Settings {
@@ -32,4 +33,15 @@ public class Settings {
             LocalDate.of(2020,5,1),
             LocalDate.of(2020,12,25),
     };
+
+    public static boolean isWorkday(LocalDate date) {
+        if (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            return false;
+        }
+        for (LocalDate h : Settings.HOLIDAYS) {
+            if (h.getMonth().equals(date.getMonth()) && h.getDayOfMonth() == date.getDayOfMonth())
+                return false;
+        }
+        return true;
+    }
 }
