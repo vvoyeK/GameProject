@@ -42,6 +42,7 @@ public class Project {
     public LocalDate deadline;
     public LocalDate deliveryDate;
     public LocalDate paymentDate;
+    private boolean handmade = false;
 
     private Project(Client owner, String name, int margin, int paymentDelay) {
         this.owner = owner;
@@ -144,6 +145,9 @@ public class Project {
     }
 
     public boolean doTheJob(Programmer programmer, boolean tested) {
+        if (programmer.equals(contractor.owner)) {
+            handmade = true;
+        }
         for (WorkItem wi : workItems) {
             if (wi.isDone())
                 continue;
@@ -161,6 +165,10 @@ public class Project {
 
     public boolean wasFullyPaid() {
         return payment >= getPrice();
+    }
+
+    public boolean wasHandmade() {
+        return handmade;
     }
 
     private static String[] codenames = new String[] {

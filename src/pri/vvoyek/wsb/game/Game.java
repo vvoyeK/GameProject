@@ -391,7 +391,7 @@ public class Game {
     private boolean isEndOfGame() {
         int complexProjectCount = 0;
         for (Project p : company.projectsDone) {
-            if (p.isComplex() && p.wasFullyPaid()) {
+            if (p.isComplex() && p.wasFullyPaid() && !p.wasHandmade()) {
                 complexProjectCount ++;
             }
         }
