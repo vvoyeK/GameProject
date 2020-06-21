@@ -21,6 +21,7 @@ public class Company {
         students.add(new Programmer("Bob", 0.9 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 0, 0));
         students.add(new Programmer("Mobby", 0.6 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 10, 0));
         students.add(new Programmer("Lucky", 0.4 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 20, 20));
+        employees.add(new Programmer("ZORG", 0.0, Technology.values(), 0, 0));
     }
 
     public void showCash() {
