@@ -47,6 +47,11 @@ public class Client {
     public void payBills(LocalDate today) {
         for (Project p : projects) {
             if (!p.wasFullyPaid() && p.paymentDate.equals(today)) {
+                if (p.hasBugs() && !acceptBugs()) {
+                    System.out.println("Zerwano kontrakt na " + p.name);
+                    p.payment = p.getPrice();
+                    continue;
+                }
                 double payment = p.getPrice() - p.getDownPayment();
                 if (p.deliveryDate.isAfter(p.deadline)) {
                     if (type.equals(Type.EASY) &&
@@ -60,6 +65,18 @@ public class Client {
                 p.contractor.receivePayment(payment, p.name);
                 p.payment = p.getPrice();
             }
+        }
+    }
+
+    private boolean acceptBugs() {
+        switch (type) {
+            case EASY:
+                return true;
+            case STRICT:
+                return Game.nextInt(100) < 50;
+            case EVIL:
+            default:
+                return false;
         }
     }
 
