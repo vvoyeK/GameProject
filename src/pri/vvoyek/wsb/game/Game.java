@@ -189,6 +189,8 @@ public class Game {
             }
             company.projects.remove(project);
             project.owner.projects.add(project);
+            project.deliveryDate = today;
+            project.paymentDate = today.plusDays(project.paymentDelay);
             System.out.println("Oddano projekt " + projectName);
             return true;
         }
@@ -457,7 +459,7 @@ public class Game {
 
     private void clientsPayBills() {
         for (Client c : market.clients) {
-            c.payBills();
+            c.payBills(today);
         }
     }
 }

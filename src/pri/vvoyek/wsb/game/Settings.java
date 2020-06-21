@@ -24,6 +24,7 @@ public class Settings {
     public final static double HEADHUNTER_COST = 50.0;
     public final static double PROJECT_FAIR_COST = EMPLOYEE_MAX_WAGE + EMPLOYEE_FIXED_COST;
     public final static int PROJECT_MAX_MARGIN = 10;
+    public final static int PROJECT_MAX_PAYMENT_DELAY = 30;
 
     public final static LocalDateTime[] HOLIDAYS = new LocalDateTime[] {
             LocalDateTime.of(2020,5,1,0,0),

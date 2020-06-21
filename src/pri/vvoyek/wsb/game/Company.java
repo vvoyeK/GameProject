@@ -107,7 +107,9 @@ public class Company {
         return null;
     }
 
-    public void receivePayment(double bill) {
+    public void receivePayment(double bill, String name) {
+        System.out.println("Otrzymano zapłatę " + bill + " za " + name);
         cash += bill;
+        showCash();
     }
 }

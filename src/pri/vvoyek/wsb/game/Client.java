@@ -1,5 +1,6 @@
 package pri.vvoyek.wsb.game;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,11 +24,11 @@ public class Client {
         return id + "_" + type.toString();
     }
 
-    public void payBills() {
+    public void payBills(LocalDateTime today) {
         for (Project p : projects) {
-            if (!p.wasFullyPaid()) {
+            if (!p.wasFullyPaid() && p.paymentDate.equals(today)) {
                 double payment = p.getPrice();
-                p.contractor.receivePayment(payment);
+                p.contractor.receivePayment(payment, p.name);
                 p.payment = payment;
             }
         }

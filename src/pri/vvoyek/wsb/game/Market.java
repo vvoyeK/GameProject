@@ -46,7 +46,7 @@ public class Market {
 
     public void showAvailableProjects() {
         for (Project p : projects)
-            System.out.println(p);
+            System.out.println(p.toLongString());
     }
 
     public void searchForNewProject() {

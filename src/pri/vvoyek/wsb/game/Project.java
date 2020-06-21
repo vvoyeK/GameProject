@@ -1,5 +1,7 @@
 package pri.vvoyek.wsb.game;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +43,8 @@ public class Project {
     public int bugs = 0;
     public int debugDays = 0;
     public Company contractor;
+    public LocalDateTime deliveryDate;
+    public LocalDateTime paymentDate;
 
     private Project(Client owner, String name, Date deadline, int margin, double penalty, int paymentDelay, double downPayment) {
         this.owner = owner;
@@ -66,6 +70,10 @@ public class Project {
             sb.append(debugDays);
         }
         return sb.toString();
+    }
+
+    public String toLongString() {
+        return toString() + " wartość " + getPrice() + " (" + getMargin() + "%) płatność " + paymentDelay + " dni";
     }
 
     public boolean isSimple() {
@@ -149,6 +157,7 @@ public class Project {
 
     public static Project generateNewProject(Client client) {
         int margin = Game.nextInt(Settings.PROJECT_MAX_MARGIN);
+        int paymentDelay = Game.nextInt(Settings.PROJECT_MAX_PAYMENT_DELAY);
         int codenameIndex = Game.nextInt(codenames.length);
         String n = codenames[codenameIndex] +  ++codenameVersions[codenameIndex];
         Project p = new Project(client,
@@ -156,7 +165,7 @@ public class Project {
                 new Date(2020, 6,18),
                 margin,
                 20.0,
-                7,
+                paymentDelay,
                 10.0);
 
         Technology[] technologies = Technology.getRandomTechnologies();
@@ -166,7 +175,7 @@ public class Project {
             p.workItems.add(wi);
         }
 
-        System.out.println("nowy projekt " + p + " o wartości " + p.getPrice() + " " + p.getMargin() + "%");
+        System.out.println("nowy projekt " + p.toLongString());
         return  p;
     }
 }
