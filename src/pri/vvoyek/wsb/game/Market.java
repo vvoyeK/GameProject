@@ -19,7 +19,7 @@ public class Market {
 
     private Market() {
         for (int i = 0; i < Settings.INITIAL_PROJECT_COUNT; i++)
-            addNewProject();
+            addNewProject(null);
         for (int i = 0; i < Settings.INITIAL_FREE_EMPLOYEES; i++) {
             addNewEmployee();
         }
@@ -38,9 +38,9 @@ public class Market {
         return c;
     }
 
-    private void addNewProject() {
+    public void addNewProject(Salesman salesman) {
         Client cl = getRandomClient();
-        Project p = Project.generateNewProject(cl);
+        Project p = Project.generateNewProject(cl, salesman);
         projects.add(p);
     }
 
@@ -50,8 +50,8 @@ public class Market {
     }
 
     public void searchForNewProject() {
-        if (++counter % Settings.TRIES_TO_NEW_PROJECT == 0) {
-            addNewProject();
+        if (++counter % Settings.DAYS_TO_NEW_PROJECT == 0) {
+            addNewProject(null);
         }
     }
 

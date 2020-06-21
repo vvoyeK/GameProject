@@ -390,13 +390,19 @@ public class Game {
 
     private boolean isEndOfGame() {
         int complexProjectCount = 0;
+        int salesmanProjectCount = 0;
+
         for (Project p : company.projectsDone) {
             if (p.isComplex() && p.wasFullyPaid() && !p.wasHandmade()) {
                 complexProjectCount ++;
+                if (p.salesman != null && company.employees.contains(p.salesman)) {
+                    salesmanProjectCount ++;
+                }
             }
         }
 
-        return complexProjectCount > 3 &&
+        return complexProjectCount >= Settings.MIN_COMPLEX_PROJECT_COUNT &&
+                salesmanProjectCount >= Settings.MIN_SALESMAN_PROJECT_COUNT &&
                 company.cash > Settings.COMPANY_INITIAL_CASH;
     }
 
@@ -407,8 +413,9 @@ public class Game {
                 continue;
             }
             if (e instanceof Salesman) {
+                Salesman salesman = (Salesman) e;
                 System.out.println(e.name + " szuka nowych projektów");
-                market.searchForNewProject();
+                salesman.searchForProjects();
                 continue;
             }
             if (e instanceof Tester) {

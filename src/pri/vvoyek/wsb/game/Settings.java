@@ -7,11 +7,13 @@ public class Settings {
     public final static LocalDate GAME_START_DAY = LocalDate.of(2020,1, 1);
     public final static long GAME_SEED = 123456;
     public final static double COMPANY_INITIAL_CASH = 1000.0;
+    public final static int MIN_COMPLEX_PROJECT_COUNT = 3;
+    public final static int MIN_SALESMAN_PROJECT_COUNT = 1;
     public final static int WORK_ITEM_MAX_DAYS = 10; //28;
     public final static int COMPLEX_WORK_ITEM_DAYS = 5;
     public final static int INITIAL_PROJECT_COUNT = 3;
     public final static int INITIAL_FREE_EMPLOYEES = 3;
-    public final static int TRIES_TO_NEW_PROJECT = 2; //5;
+    public final static int DAYS_TO_NEW_PROJECT = 5;
     public final static int PROGRAMMER_MAX_BUG_RATE = 10;
     public final static int PROGRAMMER_MAX_DELAY_RATE = 20;
     public final static double EMPLOYEE_MIN_WAGE = 50.0;

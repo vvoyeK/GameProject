@@ -30,6 +30,7 @@ public class Project {
     }
 
     public final Client owner;
+    public final Salesman salesman;
     public final String name;
     public final int margin;
     public final int paymentDelay;
@@ -44,8 +45,9 @@ public class Project {
     public LocalDate paymentDate;
     private boolean handmade = false;
 
-    private Project(Client owner, String name, int margin, int paymentDelay) {
+    private Project(Client owner, Salesman salesman, String name, int margin, int paymentDelay) {
         this.owner = owner;
+        this.salesman = salesman;
         this.name = name;
         this.margin = margin;
         this.paymentDelay = paymentDelay;
@@ -178,12 +180,12 @@ public class Project {
     };
     private static int[] codenameVersions = new int[codenames.length];
 
-    public static Project generateNewProject(Client client) {
+    public static Project generateNewProject(Client client, Salesman salesman) {
         int margin = Game.nextInt(Settings.PROJECT_MAX_MARGIN);
         int paymentDelay = Game.nextInt(Settings.PROJECT_MAX_PAYMENT_DELAY);
         int codenameIndex = Game.nextInt(codenames.length);
         String n = codenames[codenameIndex] +  ++codenameVersions[codenameIndex];
-        Project p = new Project(client, n, margin, paymentDelay);
+        Project p = new Project(client, salesman, n, margin, paymentDelay);
 
         Technology[] technologies = Technology.getRandomTechnologies();
         for (Technology t : technologies) {
