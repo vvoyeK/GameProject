@@ -32,7 +32,8 @@ public class Project {
     public final Client owner;
     public final String name;
     public final int margin;
-    public int paymentDelay;
+    public final int paymentDelay;
+    public boolean closed = false;
     public double payment = 0.0;
     private List<WorkItem> workItems;
     public int bugs = 0;

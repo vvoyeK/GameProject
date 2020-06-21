@@ -46,10 +46,12 @@ public class Client {
 
     public void payBills(LocalDate today) {
         for (Project p : projects) {
-            if (!p.wasFullyPaid() && p.paymentDate.equals(today)) {
+            if (p.closed)
+                continue;
+            if (p.paymentDate.equals(today)) {
                 if (p.hasBugs() && !acceptBugs()) {
                     System.out.println("Zerwano kontrakt na " + p.name);
-                    p.payment = p.getPrice();
+                    p.closed = true;
                     continue;
                 }
                 double payment = p.getPrice() - p.getDownPayment();
@@ -64,8 +66,9 @@ public class Client {
                 }
                 if (isReliablePayer()) {
                     p.contractor.receivePayment(payment, p.name);
+                    p.payment += payment;
                 }
-                p.payment = p.getPrice();
+                p.closed = true;
             }
         }
     }

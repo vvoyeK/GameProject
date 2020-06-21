@@ -9,6 +9,7 @@ public class Company {
     public List<Programmer> students = new ArrayList<>();
     public List<Employee> employees = new ArrayList<>();
     public List<Project> projects = new ArrayList<>();
+    public List<Project> projectsDone = new ArrayList<>();
     public int taxDays = 0;
 
     public Company() {

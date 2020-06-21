@@ -114,6 +114,7 @@ public class Game {
             System.out.println("Podpisano kontrakt na projekt " + project);
             if (project.getDownPayment() != 0.0) {
                 company.receivePayment(project.getDownPayment(), projectName);
+                project.payment = project.getDownPayment();
             }
             return true;
         }
@@ -189,6 +190,7 @@ public class Game {
                 return false;
             }
             company.projects.remove(project);
+            company.projectsDone.add(project);
             project.owner.projects.add(project);
             project.deliveryDate = today;
             project.paymentDate = today.plusDays(project.paymentDelay + project.owner.getExtraPaymentDelay());
@@ -377,8 +379,25 @@ public class Game {
 
         clientsPayBills();
 
+        if (isEndOfGame()) {
+            gameOver("Gratulacje, wygrałeś!");
+            return;
+        }
+
         today = tomorrow;
         System.out.println("Nowy dzień! " + today + " " + today.getDayOfWeek());
+    }
+
+    private boolean isEndOfGame() {
+        int complexProjectCount = 0;
+        for (Project p : company.projectsDone) {
+            if (p.isComplex() && p.wasFullyPaid()) {
+                complexProjectCount ++;
+            }
+        }
+
+        return complexProjectCount > 3 &&
+                company.cash > Settings.COMPANY_INITIAL_CASH;
     }
 
     private void employeesAtWork() {
