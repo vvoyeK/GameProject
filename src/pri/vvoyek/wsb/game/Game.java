@@ -19,7 +19,7 @@ public class Game {
 
     private interface Action {
         boolean matches(String input);
-        boolean action(String input);
+        boolean action();
         String help();
     }
 
@@ -50,14 +50,11 @@ public class Game {
         public Help() {
             super("help", "help: wyświetla listę dostępnych poleceń");
         }
-        public boolean action(String input) {
-            for (Action a : handlers) {
-                System.out.println(a.help());
-            }
+        public boolean action() {
             for (Action a : moves) {
                 System.out.println(a.help());
             }
-            return true;
+            return false;
         }
     }
 
@@ -65,9 +62,9 @@ public class Game {
         public EndGame() {
             super("quit", "quit : kończy bieżącą rozgrywkę");
         }
-        public boolean action(String input) {
+        public boolean action() {
             gameOver("Zakończono grę!");
-            return true;
+            return false;
         }
     }
 
@@ -75,9 +72,9 @@ public class Game {
         public ShowAvailableProjects() {
             super("market","market : wyświetla listę dostępnych projektów");
         }
-        public boolean action(String input) {
+        public boolean action() {
             market.showAvailableProjects();
-            return true;
+            return false;
         }
     }
 
@@ -85,7 +82,7 @@ public class Game {
         public SearchProject() {
             super("search", "search : przeznacza dzień na szukanie nowych projektów");
         }
-        public boolean action(String input) {
+        public boolean action() {
             market.searchForNewProject();
             return true;
         }
@@ -95,7 +92,7 @@ public class Game {
         public SignContract() {
             super("sign[ \t\n\r].*", "sign NAME : podpisanie kontraktu na projekt NAME");
         }
-        public boolean action(String input) {
+        public boolean action() {
             if (words.length != 2) {
                 System.out.println(help);
                 return false;
@@ -126,9 +123,9 @@ public class Game {
         public ShowProjects() {
             super("projects", "projects : pokazuje aktualne projekty firmy");
         }
-        public boolean action(String input) {
+        public boolean action() {
             company.showProjects();
-            return true;
+            return false;
         }
     }
 
@@ -136,9 +133,9 @@ public class Game {
         public ShowCash() {
             super("cash", "cash : pokazuje aktualny stan konta");
         }
-        public boolean action(String input) {
+        public boolean action() {
             company.showCash();
-            return true;
+            return false;
         }
     }
 
@@ -146,11 +143,11 @@ public class Game {
         public WorkOnProject() {
             super("work", "work : pracuj nad projektem");
         }
-        public boolean action(String input) {
+        public boolean action() {
             for (Project p : company.projects) {
                 if (p.doTheJob(company.owner, false)) {
                     System.out.println(company.owner.name + " pracował nad " + p.name);
-                    return true;
+                    break;
                 }
             }
             return true;
@@ -161,7 +158,7 @@ public class Game {
         public TestSoftware() {
             super("test", "test : przeznacza dzień na testowanie oprogramowania");
         }
-        public boolean action(String input) {
+        public boolean action() {
             for (Project p : company.projects) {
                 if (p.hasBugs()) {
                     p.debug();
@@ -176,7 +173,7 @@ public class Game {
         public DeliverProject() {
             super("deliver[ \t\n\r].*", "deliver : oddanie gotowego projektu");
         }
-        public boolean action(String input) {
+        public boolean action() {
             if (words.length != 2) {
                 System.out.println(help);
                 return false;
@@ -204,9 +201,9 @@ public class Game {
         public ShowAvailableEmployees() {
             super("interview", "interview : pokaż listę dostępnych pracowników");
         }
-        public boolean action(String input) {
+        public boolean action() {
             market.showAvailableEmployees();
-            return true;
+            return false;
         }
     }
 
@@ -214,7 +211,7 @@ public class Game {
         public SearchAvailableEmployees() {
             super("pay headhunter", "pay headhunter : zapłać " + Settings.HEADHUNTER_COST + " za szukanie nowych pracowników");
         }
-        public boolean action(String input) {
+        public boolean action() {
             company.cash -= Settings.HEADHUNTER_COST;
             market.addNewEmployee();
             return true;
@@ -223,7 +220,7 @@ public class Game {
 
     private class HireNewEmployee extends AbstractAction {
         public HireNewEmployee() { super("hire[ \t\n\r].*", "hire NAME : zatrudnia pracownika NAME do firmy"); }
-        public boolean action(String input) {
+        public boolean action() {
             if (words.length != 2) {
                 System.out.println(help);
                 return false;
@@ -252,7 +249,7 @@ public class Game {
         public FireEmployee() {
             super("fire[ \t\n\r].*", "fire NAME : zwalnia pracownika NAME z firmy");
         }
-        public boolean action(String input) {
+        public boolean action() {
             if (words.length != 2) {
                 System.out.println(help);
                 return false;
@@ -279,9 +276,9 @@ public class Game {
         public ShowStaff() {
             super("staff", "staff : pokazuje ludzi w firmie");
         }
-        public boolean action(String input) {
+        public boolean action() {
             company.showStaff();
-            return true;
+            return false;
         }
     }
 
@@ -289,9 +286,9 @@ public class Game {
         public ShowEmployees() {
             super("employees", "employees : pokazuje ludzi pracujących w firmie");
         }
-        public boolean action(String input) {
+        public boolean action() {
             company.showEmployees();
-            return true;
+            return false;
         }
     }
 
@@ -299,7 +296,7 @@ public class Game {
         public DoTaxes() {
             super("taxes", "taxes : przeznacza dzień na rozliczanie z urzędami");
         }
-        public boolean action(String input) {
+        public boolean action() {
             company.taxDays ++;
             return true;
         }
@@ -307,22 +304,18 @@ public class Game {
 
     private LocalDate today = Settings.GAME_START_DAY;
     private String finalScore = "";
-    private List<Action> handlers = new ArrayList<>();
     private List<Action> moves = new ArrayList<>();
     private Market market = Market.getInstance();
     private Company company = new Company();
 
     public Game() {
-        handlers.add(new Help());
-        handlers.add(new EndGame());
-
-        handlers.add(new ShowAvailableProjects());
-        handlers.add(new ShowAvailableEmployees());
-
-        handlers.add(new ShowStaff());
-        handlers.add(new ShowEmployees());
-        handlers.add(new ShowProjects());
-        handlers.add(new ShowCash());
+        moves.add(new Help());
+        moves.add(new ShowAvailableProjects());
+        moves.add(new ShowAvailableEmployees());
+        moves.add(new ShowStaff());
+        moves.add(new ShowEmployees());
+        moves.add(new ShowProjects());
+        moves.add(new ShowCash());
 
         moves.add(new SearchAvailableEmployees());
         moves.add(new SearchProject());
@@ -333,6 +326,7 @@ public class Game {
         moves.add(new HireNewEmployee());
         moves.add(new FireEmployee());
         moves.add(new DoTaxes());
+        moves.add(new EndGame());
     }
 
     public boolean isOver() {
@@ -345,16 +339,10 @@ public class Game {
     }
 
     public void process(String input) {
-        for (Action a : handlers) {
-            if (a.matches(input)) {
-                a.action(input);
-                return;
-            }
-        }
 
         for (Action a : moves) {
             if (a.matches(input)) {
-                if (a.action(input)) {
+                if (a.action()) {
                     endOfDay();
                 }
                 return;
