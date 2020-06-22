@@ -364,17 +364,21 @@ public class Game {
         payFixedCosts();
         paySalaries();
 
-        if (company.cash < 0.0) {
-            gameOver("zabrakło gotówki, przegrałeś");
-            return;
-        }
-
         if (tomorrow.getDayOfMonth() == 1) {
             if (company.taxDays < 2) {
                 gameOver("kontrola ZUS, przegrałeś");
                 return;
             }
             company.taxDays = 0;
+
+            double tax = company.monthlyIncome * Settings.SALES_TAX;
+            System.out.println("Podatek od sprzedaży za " + today.getMonth() + " wynosi " + tax);
+            company.cash -= tax;
+        }
+
+        if (company.cash < 0.0) {
+            gameOver("zabrakło gotówki, przegrałeś");
+            return;
         }
 
         clientsPayBills();

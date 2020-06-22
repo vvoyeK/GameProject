@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Company {
     public double cash = Settings.COMPANY_INITIAL_CASH;
+    public double monthlyIncome = 0.0;
     public Programmer owner;
     public List<Programmer> students = new ArrayList<>();
     public List<Employee> employees = new ArrayList<>();
@@ -110,6 +111,7 @@ public class Company {
     public void receivePayment(double bill, String name) {
         System.out.println("Otrzymano zapłatę " + bill + " za " + name);
         cash += bill;
+        monthlyIncome += bill;
         showCash();
     }
 }
