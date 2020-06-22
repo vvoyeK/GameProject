@@ -324,9 +324,12 @@ public class Game {
     private String finalScore = "";
     private List<Action> moves = new ArrayList<>();
     private Market market = Market.getInstance();
-    private Company company = new Company("Player");
+    private final Company company;
 
-    public Game() {
+    public Game(String playerName) {
+        System.out.println("nowa gra " + playerName);
+        company = new Company(playerName);
+
         moves.add(new Help());
         moves.add(new ShowAvailableProjects());
         moves.add(new ShowAvailableEmployees());
@@ -345,6 +348,10 @@ public class Game {
         moves.add(new FireEmployee());
         moves.add(new DoTaxes());
         moves.add(new EndGame());
+    }
+
+    public String toString() {
+        return company.owner.name;
     }
 
     public boolean isOver() {
