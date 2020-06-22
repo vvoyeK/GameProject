@@ -20,9 +20,9 @@ public class Company {
                                 Technology.WORDPRESS,
                                 Technology.PRESTASHOP },
                 0, 0);
-        students.add(new Programmer("Bob", 0.9 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 0, 0));
-        students.add(new Programmer("Mobby", 0.6 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 10, 0));
-        students.add(new Programmer("Lucky", 0.4 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 20, 20));
+        students.add(new Programmer(Employee.getNextName(), 0.9 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 0, 0));
+        students.add(new Programmer(Employee.getNextName(), 0.6 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 10, 0));
+        students.add(new Programmer(Employee.getNextName(), 0.4 * Employee.getFairSalary(), Technology.getRandomTechnologies(), 20, 20));
     }
 
     public void showCash() {
