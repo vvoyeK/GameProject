@@ -52,6 +52,12 @@ public class Client {
                 if (p.hasBugs() && !acceptBugs()) {
                     System.out.println("Zerwano kontrakt na " + p.name);
                     p.closed = true;
+
+                    while (p.next != null) {
+                        p = p.next;
+                        System.out.println("Zerwano kontrakt na " + p.name);
+                        p.closed = true;
+                    }
                     continue;
                 }
                 double payment = p.getPrice() - p.getDownPayment();

@@ -151,6 +151,8 @@ public class Project {
     }
 
     public boolean doTheJob(Programmer programmer, boolean tested) {
+        if (closed)
+            return false;
         if (programmer.equals(contractor.owner)) {
             handmade = true;
         }
