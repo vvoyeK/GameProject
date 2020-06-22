@@ -148,6 +148,9 @@ public class Game {
             for (Project p : company.projects) {
                 if (p.doTheJob(company.owner, false)) {
                     System.out.println(company.owner.name + " pracował nad " + p.name);
+                    if (p.isDone()) {
+                        System.out.println("Projekt " + p.name + " jest gotowy!");
+                    }
                     break;
                 }
             }
