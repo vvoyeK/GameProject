@@ -198,6 +198,19 @@ public class Game {
             project.deliveryDate = today;
             project.paymentDate = today.plusDays(project.paymentDelay + project.owner.getExtraPaymentDelay());
             System.out.println("Oddano projekt " + projectName);
+
+            if (project.next != null) {
+                project = project.next;
+
+                company.projects.add(project);
+                project.contractor = company;
+                project.deadline = today.plusDays(project.daysForDelivery());
+                System.out.println("Czas na kolejną faze " + project.name);
+                if (project.getDownPayment() != 0.0) {
+                    company.receivePayment(project.getDownPayment(), projectName);
+                    project.payment = project.getDownPayment();
+                }
+            }
             return true;
         }
     }

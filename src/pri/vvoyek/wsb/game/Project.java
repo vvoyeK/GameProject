@@ -37,6 +37,7 @@ public class Project {
     public boolean closed = false;
     public double payment = 0.0;
     private List<WorkItem> workItems;
+    public Project next;
     public int bugs = 0;
     public int debugDays = 0;
     public Company contractor;
@@ -70,7 +71,10 @@ public class Project {
     }
 
     public String toLongString() {
-        return toString() + " wartość " + getPrice() + " (" + getMargin() + "%) płatność " + paymentDelay + " dni termin oddania " + daysForDelivery() + " dni";
+        String phases = "";
+        if (this.next != null)
+            phases = " + " + this.next.toLongString();
+        return toString() + " wartość " + getPrice() + " (" + getMargin() + "%) płatność " + paymentDelay + " dni termin oddania " + daysForDelivery() + " dni" + phases;
     }
 
     public boolean isSimple() {
@@ -184,14 +188,26 @@ public class Project {
         int margin = Game.nextInt(Settings.PROJECT_MAX_MARGIN);
         int paymentDelay = Game.nextInt(Settings.PROJECT_MAX_PAYMENT_DELAY);
         int codenameIndex = Game.nextInt(codenames.length);
+        int phases = 1 + Game.nextInt(3);
         String n = codenames[codenameIndex] +  ++codenameVersions[codenameIndex];
         Project p = new Project(client, salesman, n, margin, paymentDelay);
 
         Technology[] technologies = Technology.getRandomTechnologies();
         for (Technology t : technologies) {
-            int days = 1 + Game.nextInt(Settings.WORK_ITEM_MAX_DAYS);
+            int days = 1 + Game.nextInt(Settings.WORK_ITEM_MAX_DAYS / phases);
             WorkItem wi = new WorkItem(t, days);
             p.workItems.add(wi);
+        }
+
+        Project next = p;
+        for (int i = 2; i <= phases; i++) {
+            next.next = new Project(client, salesman, n + "_" + i, margin, paymentDelay);
+            for (Technology t : technologies) {
+                int days = 1 + Game.nextInt(Settings.WORK_ITEM_MAX_DAYS / phases);
+                WorkItem wi = new WorkItem(t, days);
+                next.next.workItems.add(wi);
+            }
+            next = next.next;
         }
 
         System.out.println("nowy projekt " + p.toLongString());
